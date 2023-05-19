@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ImageBackground } from 'react-native'
+import { ImageBackground, Platform } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { SplashScreen, Stack } from 'expo-router'
 import { styled } from 'nativewind'
@@ -11,6 +11,8 @@ import Stripes from '../src/assets/stripes.svg'
 
 import { useCustomFonts } from '../src/hooks/useCustomFonts'
 import { setNavigationBarColor } from '../src/lib/navigation-bar'
+
+import '../src/lib/dayjs'
 
 const StyledStripes = styled(Stripes)
 
@@ -46,11 +48,12 @@ export default function RootLayout() {
         screenOptions={{
           headerShown: false,
           contentStyle: { backgroundColor: 'transparent' },
+          animation: Platform.OS === 'ios' ? 'fade' : 'default',
         }}
       >
         <Stack.Screen name="index" redirect={isUserAuthenticated} />
-        <Stack.Screen name="new" />
         <Stack.Screen name="memories" />
+        <Stack.Screen name="new" />
       </Stack>
     </ImageBackground>
   )
