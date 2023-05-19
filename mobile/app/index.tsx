@@ -1,30 +1,15 @@
 import { useEffect } from 'react'
-import {
-  Platform,
-  ImageBackground,
-  View,
-  Text,
-  TouchableOpacity,
-} from 'react-native'
-import { StatusBar } from 'expo-status-bar'
-import { styled } from 'nativewind'
+import { View, Text, TouchableOpacity } from 'react-native'
 import { useRouter } from 'expo-router'
 
-import * as NavigationBar from 'expo-navigation-bar'
 import * as SecureStore from 'expo-secure-store'
 
-import blurBg from '../src/assets/bg-blur.png'
-import Stripes from '../src/assets/stripes.svg'
 import NLWLogo from '../src/assets/nlw-spacetime-logo.svg'
 import { api } from '../src/lib/api'
-import { useCustomFonts } from '../src/hooks/useCustomFonts'
 import { useGihubOAuth } from '../src/hooks/useGihubOAuth'
-
-const StyledStripes = styled(Stripes)
 
 export default function App() {
   const router = useRouter()
-  const [hasLoadedFonts] = useCustomFonts()
   const [response, signInWithGithub] = useGihubOAuth()
 
   async function handleGithubOAuthCode(code: string) {
@@ -44,24 +29,8 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response])
 
-  useEffect(() => {
-    if (Platform.OS === 'android') {
-      NavigationBar.setBackgroundColorAsync('#121215')
-    }
-  }, [])
-
-  if (!hasLoadedFonts) {
-    return null
-  }
-
   return (
-    <ImageBackground
-      source={blurBg}
-      className="relative flex-1 items-center bg-gray-900 px-8 py-10"
-      imageStyle={{ position: 'absolute', left: '-100%' }}
-    >
-      <StyledStripes className="absolute left-2" />
-
+    <View className="flex-1 items-center px-8 py-10">
       <View className="flex-1 items-center justify-center gap-6">
         <NLWLogo />
 
@@ -89,8 +58,6 @@ export default function App() {
       <Text className="text-center font-body text-sm leading-relaxed text-gray-200">
         Feito com 💜 no NLW da Rocketseat
       </Text>
-
-      <StatusBar style="light" />
-    </ImageBackground>
+    </View>
   )
 }
