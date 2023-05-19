@@ -6,6 +6,7 @@ import { prisma } from '../lib/prisma'
 export async function memoriesRoutes(app: FastifyInstance) {
   await authenticateRequest(app)
 
+  // GET MEMORIES
   app.get('/memories', async (request) => {
     const memories = await prisma.memory.findMany({
       where: {
@@ -23,6 +24,7 @@ export async function memoriesRoutes(app: FastifyInstance) {
     }))
   })
 
+  // GET MEMORY
   app.get('/memories/:id', async (request, reply) => {
     const paramsSchema = z.object({
       id: z.string().uuid(),
@@ -41,6 +43,7 @@ export async function memoriesRoutes(app: FastifyInstance) {
     return memory
   })
 
+  // CREATE MEMORY
   app.post('/memories', async (request) => {
     const bodySchema = z.object({
       content: z.string(),
@@ -62,6 +65,7 @@ export async function memoriesRoutes(app: FastifyInstance) {
     return memory
   })
 
+  // UPDATE MEMORY
   app.put('/memories/:id', async (request, reply) => {
     const paramsSchema = z.object({
       id: z.string().uuid(),
@@ -98,6 +102,7 @@ export async function memoriesRoutes(app: FastifyInstance) {
     return memory
   })
 
+  // DELETE MEMORY
   app.delete('/memories/:id', async (request, reply) => {
     const paramsSchema = z.object({
       id: z.string().uuid(),
